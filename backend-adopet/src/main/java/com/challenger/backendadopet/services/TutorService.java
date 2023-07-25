@@ -31,4 +31,20 @@ public class TutorService {
     	List<Tutor> list = repository.findAll();
     	return list.stream().map(x -> new TutorDTO(x)).collect(Collectors.toList());
     }
+    
+    @Transactional
+    public TutorDTO insert(TutorDTO dto) {
+    	Tutor entity = new Tutor();
+    	entity.setName(dto.getName());
+    	entity.setEmail(dto.getEmail());
+    	entity.setPassword(dto.getPassword());
+    	entity.setCpf(dto.getCpf());
+    	entity.setAddress(dto.getAddress());
+    	entity.setCity(dto.getCity());
+    	entity.setUf(dto.getUf());
+    	entity.setPhone(dto.getPhone());
+    	entity.setImage(dto.getImage());
+    	entity = repository.save(entity);
+    	return new TutorDTO(entity);
+    }
 }
