@@ -1,4 +1,4 @@
-package entities;
+package com.challenger.backendadopet.entities;
 
 import java.io.Serializable;
 import java.util.Objects;

@@ -1,4 +1,4 @@
-package services.exceptions;
+package com.challenger.backendadopet.services.exceptions;
 
 public class ResourceNotFoundException extends RuntimeException {
     private static final long serialVersionUID = 1L;

@@ -1,6 +1,6 @@
-package dto;
+package com.challenger.backendadopet.dto;
 
-import entities.Tutor;
+import com.challenger.backendadopet.entities.Tutor;
 
 public class TutorDTO {
 
