@@ -13,6 +13,8 @@ import com.challenger.backendadopet.entities.Tutor;
 import com.challenger.backendadopet.repositories.TutorRepository;
 import com.challenger.backendadopet.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class TutorService {
 
@@ -46,5 +48,25 @@ public class TutorService {
     	entity.setImage(dto.getImage());
     	entity = repository.save(entity);
     	return new TutorDTO(entity);
+    }
+    
+    @Transactional
+    public TutorDTO update(Long id,TutorDTO dto) {
+    	try {
+    		Tutor entity = repository.getReferenceById(id);
+    		entity.setName(dto.getName());
+        	entity.setEmail(dto.getEmail());
+        	entity.setPassword(dto.getPassword());
+        	entity.setCpf(dto.getCpf());
+        	entity.setAddress(dto.getAddress());
+        	entity.setCity(dto.getCity());
+        	entity.setUf(dto.getUf());
+        	entity.setPhone(dto.getPhone());
+        	entity.setImage(dto.getImage());
+        	entity = repository.save(entity);
+        	return new TutorDTO(entity);
+         } catch (EntityNotFoundException e) {
+              throw new ResourceNotFoundException("Id not found " + id);
+       }
     }
 }
