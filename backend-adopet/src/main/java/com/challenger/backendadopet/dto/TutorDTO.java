@@ -2,17 +2,43 @@ package com.challenger.backendadopet.dto;
 
 import com.challenger.backendadopet.entities.Tutor;
 
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class TutorDTO {
 
     private Long id;
+    
+    @Size(min = 5, max = 60, message = "Deve ter entre 5 e 60 caracteres")
+    @NotBlank(message = "Campo requerido")
     private String name;
+    
+    @Email(message = "Favor coloca um email valido")
+    @Column(unique = true)
     private String email;
+    
+    @NotBlank(message = "Campo requerido")
     private String password;
+    
+    @Column(unique = true)
     private String cpf;
+    
+    @NotBlank(message = "Campo requerido")
     private String address;
+    
+    @NotBlank(message = "Campo requerido")
     private String city;
+    
+    @NotBlank(message = "Campo requerido")
     private String uf;
+    
+    @NotBlank(message = "Campo requerido")
+    @Size(min = 11, max = 11, message = "Deve ter exatos 11 numeros para ser valido")
     private String phone;
+    
+    @NotBlank(message = "Campo requerido")
     private String image;
 
     public TutorDTO() {
