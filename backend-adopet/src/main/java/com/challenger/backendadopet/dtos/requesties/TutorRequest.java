@@ -1,13 +1,12 @@
-package com.challenger.backendadopet.dto;
+package com.challenger.backendadopet.dtos.requesties;
 
 import com.challenger.backendadopet.entities.Tutor;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class TutorDTO {
+public class TutorRequest {
 
     private Long id;
     
@@ -16,13 +15,12 @@ public class TutorDTO {
     private String name;
     
     @Email(message = "Favor coloca um email valido")
-    @Column(unique = true)
     private String email;
     
     @NotBlank(message = "Campo requerido")
     private String password;
     
-    @Column(unique = true)
+    @NotBlank(message = "Campo requerido")
     private String cpf;
     
     @NotBlank(message = "Campo requerido")
@@ -41,10 +39,10 @@ public class TutorDTO {
     @NotBlank(message = "Campo requerido")
     private String image;
 
-    public TutorDTO() {
+    public TutorRequest() {
     }
 
-    public TutorDTO(Long id, String name, String email, String password, String cpf, String address, String city, String uf, String phone, String image) {
+    public TutorRequest(Long id, String name, String email, String password, String cpf, String address, String city, String uf, String phone, String image) {
         super();
         this.id = id;
         this.name = name;
@@ -58,7 +56,7 @@ public class TutorDTO {
         this.image = image;
     }
 
-    public TutorDTO(Tutor entity) {
+    public TutorRequest(Tutor entity) {
         id = entity.getId();
         name = entity.getName();
         email = entity.getEmail();

@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.challenger.backendadopet.dto.TutorDTO;
+import com.challenger.backendadopet.dtos.requesties.TutorRequest;
+import com.challenger.backendadopet.dtos.responses.TutorResponse;
 import com.challenger.backendadopet.services.TutorService;
 
 import jakarta.validation.Valid;
@@ -26,34 +27,37 @@ public class TutorController {
 
     @Autowired
     private TutorService service;
+    
+    @Autowired
+    private TutorResponse response;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<TutorDTO> findById(@PathVariable Long id) {
-        TutorDTO dto = service.findById(id);
-        return ResponseEntity.ok().body(dto);
+    public ResponseEntity<TutorResponse> findById(@PathVariable Long id) {
+    	TutorResponse resp = service.findById(id);
+        return ResponseEntity.ok().body(resp);
     }
     
     @GetMapping
-    public ResponseEntity<List<TutorDTO>> findAll() {
-    	List<TutorDTO> list = service.findAll();
+    public ResponseEntity<List<TutorResponse>> findAll() {
+    	List<TutorResponse> list = service.findAll();
     	return ResponseEntity.ok().body(list);
     }
     
     @PostMapping
-	public ResponseEntity<TutorDTO> insert(@Valid @RequestBody TutorDTO dto) {
-		dto = service.insert(dto);
+	public ResponseEntity<TutorResponse> insert(@Valid @RequestBody TutorRequest dto) {
+		response.convertDTOS(service.insert(dto));
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
     
     @PutMapping(value = "/{id}")
-	public ResponseEntity<TutorDTO> update(@PathVariable Long id, @Valid @RequestBody TutorDTO dto) {
+	public ResponseEntity<TutorRequest> update(@PathVariable Long id, @Valid @RequestBody TutorRequest dto) {
 		dto = service.update(id, dto);
 		return ResponseEntity.ok(dto);
 	}
     
     @DeleteMapping(value = "/{id}")
-	public ResponseEntity<TutorDTO> delete(@PathVariable Long id) {
+	public ResponseEntity<TutorRequest> delete(@PathVariable Long id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
