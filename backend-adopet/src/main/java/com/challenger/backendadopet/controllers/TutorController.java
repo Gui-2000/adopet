@@ -28,9 +28,6 @@ public class TutorController {
     @Autowired
     private TutorService service;
     
-    @Autowired
-    private TutorResponse response;
-
     @GetMapping(value = "/{id}")
     public ResponseEntity<TutorResponse> findById(@PathVariable Long id) {
     	TutorResponse resp = service.findById(id);
@@ -45,9 +42,9 @@ public class TutorController {
     
     @PostMapping
 	public ResponseEntity<TutorResponse> insert(@Valid @RequestBody TutorRequest dto) {
-		response.convertDTOS(service.insert(dto));
+    	TutorResponse response = service.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
-		return ResponseEntity.created(uri).body(dto);
+		return ResponseEntity.created(uri).body(response);
 	}
     
     @PutMapping(value = "/{id}")
@@ -57,7 +54,7 @@ public class TutorController {
 	}
     
     @DeleteMapping(value = "/{id}")
-	public ResponseEntity<TutorRequest> delete(@PathVariable Long id) {
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}

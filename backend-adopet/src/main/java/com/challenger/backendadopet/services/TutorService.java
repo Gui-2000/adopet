@@ -5,8 +5,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +12,6 @@ import com.challenger.backendadopet.dtos.requesties.TutorRequest;
 import com.challenger.backendadopet.dtos.responses.TutorResponse;
 import com.challenger.backendadopet.entities.Tutor;
 import com.challenger.backendadopet.repositories.TutorRepository;
-import com.challenger.backendadopet.services.exceptions.DatabaseException;
 import com.challenger.backendadopet.services.exceptions.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -25,7 +22,6 @@ public class TutorService {
     @Autowired
     private TutorRepository repository;
     
-    @Autowired
     private TutorResponse response;
 
     @Transactional(readOnly = true)
@@ -62,32 +58,10 @@ public class TutorService {
     }
     
     public void delete(Long id) {
-  	   try {		   
-  		findById(id);
-  		repository.deleteById(id);
-  	  }
-  	  catch(EmptyResultDataAccessException e) {
-  	    throw new ResourceNotFoundException("Id not found " + id);
-  	  }
-  	  catch(DataIntegrityViolationException e) {
-  		throw new DatabaseException("Integrity violation");
-  	  }
+       Optional<Tutor> obj =  repository.findById(id);
+       Tutor entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+       repository.delete(entity);
   	}
-    
-   /* public static Tutor convertTutor(TutorRequest dto) {
-        Tutor tutor = new Tutor();
-        tutor.setName(dto.getName());
-        tutor.setEmail(dto.getEmail());
-        tutor.setPassword(dto.getPassword());
-        tutor.setCpf(dto.getCpf());
-        tutor.setAddress(dto.getAddress());
-        tutor.setCity(dto.getCity());
-        tutor.setUf(dto.getUf());
-        tutor.setPhone(dto.getPhone());
-        tutor.setImage(dto.getImage());
-        tutor = repository.save(tutor);
-    	return tutor;
-    }*/
     
     private void copyDtoToEntity(TutorRequest dto, Tutor entity) {
     	entity.setName(dto.getName());
