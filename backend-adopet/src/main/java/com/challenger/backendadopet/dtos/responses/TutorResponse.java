@@ -1,8 +1,10 @@
 package com.challenger.backendadopet.dtos.responses;
 
-import com.challenger.backendadopet.dtos.requesties.TutorRequest;
+import org.springframework.stereotype.Service;
+
 import com.challenger.backendadopet.entities.Tutor;
 
+@Service
 public class TutorResponse {
 
 	 private String name;
@@ -37,12 +39,5 @@ public class TutorResponse {
 		 response.setName(tutor.getName());
 		 response.setEmail(tutor.getEmail());
 		 return response;
-	 }
-	
-	public TutorResponse convertDTOS(TutorRequest request) {
-		 TutorResponse response = new TutorResponse();
-		 response.setName(request.getName());
-		 response.setEmail(request.getEmail());
-		 return response;
-	 }
+	}
 }

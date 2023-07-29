@@ -22,6 +22,7 @@ public class TutorService {
     @Autowired
     private TutorRepository repository;
     
+    @Autowired
     private TutorResponse response;
 
     @Transactional(readOnly = true)
