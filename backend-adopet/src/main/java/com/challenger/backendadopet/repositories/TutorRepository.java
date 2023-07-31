@@ -8,4 +8,6 @@ import com.challenger.backendadopet.entities.Tutor;
 @Repository
 public interface TutorRepository extends JpaRepository<Tutor, Long> {
 
+	Tutor findByEmail(String email);
+	Tutor findByCpf (String cpf);
 }
