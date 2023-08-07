@@ -53,13 +53,12 @@ public class TutorRepositoryTests {
 		Assertions.assertFalse(result.isEmpty());
 	}
 	
-	@Test	
+	@Test
 	public void deleteShouldDeleteObjectWhenIdExists() {
-				
-		Optional<Tutor> result = repository.findById(exintingId); 
+
+		Optional<Tutor> result = repository.findById(exintingId);
 		Tutor entity = result.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		repository.delete(entity);
-	
 		Assertions.assertTrue(entity.getName().isEmpty());
 	}
 	
