@@ -1,51 +1,45 @@
 package com.challenger.backendadopet.entities;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 @Entity
-@Table(name = "tb_tutor")
-public class Tutor implements Serializable {
+@Table(name = "tb_shelter")
+public class Shelter implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    
-    @Column(unique = true)
     private String email;
-    private String password;
-    
     @Column(unique = true)
-    private String cpf;
+    private String cnpj;
+    private String phone;
     private String address;
     private String city;
     private String uf;
-    private String phone;
     private String image;
 
-    @OneToMany(mappedBy = "responsible")
-    private List<Shelter> shelters = new ArrayList<>();
+    @ManyToOne
+    private Tutor responsible;
 
-    public Tutor() {
+    public Shelter() {
     }
 
-    public Tutor(Long id, String name, String email, String password, String cpf, String address, String city, String uf, String phone, String image) {
+    public Shelter(Long id, String name, String email, String cnpj, String phone, String address, String city, String uf, String image, Tutor responsible) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.password = password;
-        this.cpf = cpf;
+        this.cnpj = cnpj;
+        this.phone = phone;
         this.address = address;
         this.city = city;
         this.uf = uf;
-        this.phone = phone;
         this.image = image;
+        this.responsible = responsible;
     }
 
     public Long getId() {
@@ -72,20 +66,20 @@ public class Tutor implements Serializable {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getCnpj() {
+        return cnpj;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getAddress() {
@@ -112,14 +106,6 @@ public class Tutor implements Serializable {
         this.uf = uf;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getImage() {
         return image;
     }
@@ -128,12 +114,20 @@ public class Tutor implements Serializable {
         this.image = image;
     }
 
+    public Tutor getResponsible() {
+        return responsible;
+    }
+
+    public void setResponsible(Tutor responsible) {
+        this.responsible = responsible;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Tutor tutor = (Tutor) o;
-        return Objects.equals(id, tutor.id);
+        Shelter shelter = (Shelter) o;
+        return Objects.equals(id, shelter.id);
     }
 
     @Override
