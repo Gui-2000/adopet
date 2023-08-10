@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ShelterService {
@@ -24,4 +26,12 @@ public class ShelterService {
         Shelter entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
         return response.convert(entity);
     }
+
+    @Transactional(readOnly = true)
+    public List<ShelterResponse> findAll() {
+        List<Shelter> list = repository.findAll();
+        return list.stream().map(x -> response.convert(x)).collect(Collectors.toList());
+    }
+
+
 }
