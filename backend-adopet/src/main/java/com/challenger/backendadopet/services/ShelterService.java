@@ -53,6 +53,11 @@ public class ShelterService {
             throw new ResourceNotFoundException("Id not found " + id);
         }
     }
+    public void delete(Long id) {
+        Optional<Shelter> obj =  repository.findById(id);
+        Shelter entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+        repository.delete(entity);
+    }
 
     private void copyDtoToEntity(ShelterRequest dto, Shelter entity) {
         entity.setName(dto.getName());
