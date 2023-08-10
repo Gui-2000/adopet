@@ -1,12 +1,11 @@
 package com.challenger.backendadopet.services;
 
 import com.challenger.backendadopet.dtos.requesties.ShelterRequest;
-import com.challenger.backendadopet.dtos.requesties.TutorRequest;
 import com.challenger.backendadopet.dtos.responses.ShelterResponse;
 import com.challenger.backendadopet.entities.Shelter;
-import com.challenger.backendadopet.entities.Tutor;
 import com.challenger.backendadopet.repositories.ShelterRepository;
 import com.challenger.backendadopet.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +40,18 @@ public class ShelterService {
         copyDtoToEntity(dto, entity);
         entity = repository.save(entity);
         return response.convert(entity);
+    }
+
+    @Transactional
+    public ShelterRequest update(Long id, ShelterRequest dto) {
+        try {
+            Shelter entity = repository.getReferenceById(id);
+            copyDtoToEntity(dto, entity);
+            entity = repository.save(entity);
+            return new ShelterRequest(entity);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Id not found " + id);
+        }
     }
 
     private void copyDtoToEntity(ShelterRequest dto, Shelter entity) {

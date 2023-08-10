@@ -1,9 +1,7 @@
 package com.challenger.backendadopet.controllers;
 
 import com.challenger.backendadopet.dtos.requesties.ShelterRequest;
-import com.challenger.backendadopet.dtos.requesties.TutorRequest;
 import com.challenger.backendadopet.dtos.responses.ShelterResponse;
-import com.challenger.backendadopet.dtos.responses.TutorResponse;
 import com.challenger.backendadopet.services.ShelterService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +36,11 @@ public class ShelterController {
         ShelterResponse response = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(response);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<ShelterRequest> update(@PathVariable Long id, @Valid @RequestBody ShelterRequest dto) {
+        dto = service.update(id, dto);
+        return ResponseEntity.ok(dto);
     }
 }
