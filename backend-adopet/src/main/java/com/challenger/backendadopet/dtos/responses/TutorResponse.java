@@ -1,8 +1,7 @@
 package com.challenger.backendadopet.dtos.responses;
 
-import org.springframework.stereotype.Service;
-
 import com.challenger.backendadopet.entities.Tutor;
+import org.springframework.stereotype.Service;
 
 @Service
 public class TutorResponse {

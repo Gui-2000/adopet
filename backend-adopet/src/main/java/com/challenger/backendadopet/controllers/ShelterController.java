@@ -32,7 +32,7 @@ public class ShelterController {
     }
 
     @PostMapping
-    public ResponseEntity<ShelterResponse> insert(@RequestBody ShelterRequest dto){
+    public ResponseEntity<ShelterResponse> insert(@Valid @RequestBody ShelterRequest dto){
         ShelterResponse response = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(response);

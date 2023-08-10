@@ -8,11 +8,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = TutorValidator.class)
+@Constraint(validatedBy = ShelterValidator.class)
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 
-public @interface TutorValid {
+public @interface ShelterValid {
 	String message() default "Validation error";
 
 	Class<?>[] groups() default {};

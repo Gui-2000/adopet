@@ -1,9 +1,9 @@
 package com.challenger.backendadopet.services.validation;
 
 import com.challenger.backendadopet.controllers.exceptions.FieldMessage;
-import com.challenger.backendadopet.dtos.requesties.TutorRequest;
-import com.challenger.backendadopet.entities.Tutor;
-import com.challenger.backendadopet.repositories.TutorRepository;
+import com.challenger.backendadopet.dtos.requesties.ShelterRequest;
+import com.challenger.backendadopet.entities.Shelter;
+import com.challenger.backendadopet.repositories.ShelterRepository;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,28 +11,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TutorValidator implements ConstraintValidator<TutorValid, TutorRequest> {
+public class ShelterValidator implements ConstraintValidator<ShelterValid, ShelterRequest> {
 
 	@Autowired
-	private TutorRepository repository;
+	private ShelterRepository repository;
 	
 	@Override
-	public void initialize(TutorValid ann) {
+	public void initialize(ShelterValid ann) {
 	}
 	
 	@Override
-	public boolean isValid(TutorRequest dto, ConstraintValidatorContext context) {
+	public boolean isValid(ShelterRequest dto, ConstraintValidatorContext context) {
 		
 		List<FieldMessage> list = new ArrayList<>();
 		
-		Tutor email = repository.findByEmail(dto.getEmail());
+		Shelter email = repository.findByEmail(dto.getEmail());
 		if (email != null) {
 			list.add(new FieldMessage("email", "Email já existe"));
 		}
 		
-		Tutor cpf = repository.findByCpf(dto.getCpf());
-		if (cpf != null) {
-			list.add(new FieldMessage("cpf", "CPF já existe"));
+		Shelter cnpj = repository.findByCnpj(dto.getCnpj());
+		if (cnpj != null) {
+			list.add(new FieldMessage("cnpj", "CNPJ já existe"));
 		}
 		
 		for (FieldMessage e : list) {

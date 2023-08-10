@@ -2,7 +2,6 @@ package com.challenger.backendadopet.dtos.requesties;
 
 import com.challenger.backendadopet.entities.Tutor;
 import com.challenger.backendadopet.services.validation.TutorValid;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

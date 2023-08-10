@@ -1,7 +1,6 @@
 package com.challenger.backendadopet.dtos.responses;
 
 import com.challenger.backendadopet.entities.Shelter;
-import com.challenger.backendadopet.entities.Tutor;
 import org.springframework.stereotype.Service;
 
 @Service

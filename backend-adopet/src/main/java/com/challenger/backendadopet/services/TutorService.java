@@ -1,20 +1,18 @@
 package com.challenger.backendadopet.services;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.challenger.backendadopet.dtos.requesties.TutorRequest;
 import com.challenger.backendadopet.dtos.responses.TutorResponse;
 import com.challenger.backendadopet.entities.Tutor;
 import com.challenger.backendadopet.repositories.TutorRepository;
 import com.challenger.backendadopet.services.exceptions.ResourceNotFoundException;
-
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TutorService {
