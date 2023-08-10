@@ -1,7 +1,10 @@
 package com.challenger.backendadopet.services;
 
+import com.challenger.backendadopet.dtos.requesties.ShelterRequest;
+import com.challenger.backendadopet.dtos.requesties.TutorRequest;
 import com.challenger.backendadopet.dtos.responses.ShelterResponse;
 import com.challenger.backendadopet.entities.Shelter;
+import com.challenger.backendadopet.entities.Tutor;
 import com.challenger.backendadopet.repositories.ShelterRepository;
 import com.challenger.backendadopet.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +36,22 @@ public class ShelterService {
         return list.stream().map(x -> response.convert(x)).collect(Collectors.toList());
     }
 
+    public ShelterResponse insert(ShelterRequest dto) {
+        Shelter entity = new Shelter();
+        copyDtoToEntity(dto, entity);
+        entity = repository.save(entity);
+        return response.convert(entity);
+    }
 
+    private void copyDtoToEntity(ShelterRequest dto, Shelter entity) {
+        entity.setName(dto.getName());
+        entity.setEmail(dto.getEmail());
+        entity.setCnpj(dto.getCnpj());
+        entity.setPhone(dto.getPhone());
+        entity.setAddress(dto.getAddress());
+        entity.setCity(dto.getCity());
+        entity.setUf(dto.getUf());
+        entity.setImage(dto.getImage());
+        entity.setResponsible(entity.getResponsible());
+    }
 }
