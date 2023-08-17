@@ -3,6 +3,8 @@ package com.challenger.backendadopet.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -26,6 +28,9 @@ public class Shelter implements Serializable {
 
     @ManyToOne
     private Tutor responsible;
+
+    @OneToMany(mappedBy = "shelter")
+    private List<Pet> pets = new ArrayList<>();
 
     public Shelter() {
     }
@@ -121,6 +126,10 @@ public class Shelter implements Serializable {
 
     public void setResponsible(Tutor responsible) {
         this.responsible = responsible;
+    }
+
+    public List<Pet> getPets() {
+        return pets;
     }
 
     @Override
