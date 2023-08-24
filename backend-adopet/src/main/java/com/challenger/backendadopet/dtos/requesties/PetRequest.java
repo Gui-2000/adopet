@@ -1,55 +1,60 @@
-package com.challenger.backendadopet.entities;
+package com.challenger.backendadopet.dtos.requesties;
 
+import com.challenger.backendadopet.entities.Pet;
 import com.challenger.backendadopet.enums.*;
-import jakarta.persistence.*;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Entity
-@Table(name = "tb_pet")
-public class Pet implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class PetRequest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String age;
     private String description;
     private PetSpecie specie;
     private PetPersonality personality;
-    private LocalDateTime dateCreate = LocalDateTime.now();
+    private LocalDateTime dateCreate;
     private PetAgeMonthOrYear ageMonthOrYear;
     private PetGenre genre;
     private PetStatus status;
     private PetCarrying carrying;
+    private Long ownerId;
+    private Long shelterId;
 
-    @ManyToOne
-    private Tutor owner;
-
-    @ManyToOne
-    @JoinColumn(name = "shelter_id")
-    private Shelter shelter;
-
-    public Pet() {
+    public PetRequest() {
     }
 
-    public Pet(Long id, String name, String age, String description, Shelter shelter, PetSpecie specie, PetPersonality personality, Tutor owner, LocalDateTime dateCreate, PetAgeMonthOrYear ageMonthOrYear, PetGenre genre, PetStatus status, PetCarrying carrying) {
+    public PetRequest(Long id, String name, String age, String description, PetSpecie specie, PetPersonality personality, LocalDateTime dateCreate, PetAgeMonthOrYear ageMonthOrYear, PetGenre genre, PetStatus status, PetCarrying carrying, long ownerId, Long shelterId) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.description = description;
-        this.shelter = shelter;
         this.specie = specie;
         this.personality = personality;
-        this.owner = owner;
         this.dateCreate = dateCreate;
         this.ageMonthOrYear = ageMonthOrYear;
         this.genre = genre;
         this.status = status;
         this.carrying = carrying;
+        this.ownerId = ownerId;
+        this.shelterId = shelterId;
+    }
+
+    public PetRequest(Pet entity) {
+        id = entity.getId();
+        name = entity.getName();
+        age = entity.getAge();
+        description = entity.getDescription();
+        specie = entity.getSpecie();
+        personality = entity.getPersonality();
+        dateCreate = entity.getDateCreate();
+        ageMonthOrYear = entity.getAgeMonthOrYear();
+        genre = entity.getGenre();
+        status = entity.getStatus();
+        carrying = entity.getCarrying();
+        ownerId = entity.getOwner().getId();
+        shelterId = entity.getShelter().getId();
     }
 
     public Long getId() {
@@ -84,14 +89,6 @@ public class Pet implements Serializable {
         this.description = description;
     }
 
-    public Shelter getShelter() {
-        return shelter;
-    }
-
-    public void setShelter(Shelter shelter) {
-        this.shelter = shelter;
-    }
-
     public PetSpecie getSpecie() {
         return specie;
     }
@@ -106,14 +103,6 @@ public class Pet implements Serializable {
 
     public void setPersonality(PetPersonality personality) {
         this.personality = personality;
-    }
-
-    public Tutor getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Tutor owner) {
-        this.owner = owner;
     }
 
     public LocalDateTime getDateCreate() {
@@ -156,12 +145,28 @@ public class Pet implements Serializable {
         this.carrying = carrying;
     }
 
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public Long getShelterId() {
+        return shelterId;
+    }
+
+    public void setShelterId(Long shelterId) {
+        this.shelterId = shelterId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Pet pet = (Pet) o;
-        return Objects.equals(id, pet.id);
+        PetRequest that = (PetRequest) o;
+        return Objects.equals(id, that.id);
     }
 
     @Override

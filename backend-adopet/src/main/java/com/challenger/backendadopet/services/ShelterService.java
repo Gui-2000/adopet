@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 public class ShelterService {
     @Autowired
     private ShelterRepository repository;
+    @Autowired
+    private TutorService tutorService;
 
     @Autowired
     private ShelterResponse response;
@@ -59,6 +61,10 @@ public class ShelterService {
         repository.delete(entity);
     }
 
+    public Shelter getBYId(Long id) {
+        return repository.getReferenceById(id);
+    }
+
     private void copyDtoToEntity(ShelterRequest dto, Shelter entity) {
         entity.setName(dto.getName());
         entity.setEmail(dto.getEmail());
@@ -68,6 +74,6 @@ public class ShelterService {
         entity.setCity(dto.getCity());
         entity.setUf(dto.getUf());
         entity.setImage(dto.getImage());
-        entity.setResponsible(entity.getResponsible());
+        entity.setResponsible(tutorService.getBYId(dto.getTutorId()));
     }
 }

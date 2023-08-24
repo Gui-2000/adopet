@@ -67,7 +67,10 @@ public class TutorService {
           throw new DatabaseException("Integrity violation");
       }
   	}
-    
+      public Tutor getBYId(Long id) {
+        return repository.getReferenceById(id);
+    }
+
     private void copyDtoToEntity(TutorRequest dto, Tutor entity) {
     	entity.setName(dto.getName());
     	entity.setEmail(dto.getEmail());

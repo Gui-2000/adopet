@@ -1,63 +1,43 @@
-package com.challenger.backendadopet.entities;
+package com.challenger.backendadopet.dtos.responses;
 
+import com.challenger.backendadopet.entities.Pet;
 import com.challenger.backendadopet.enums.*;
-import jakarta.persistence.*;
+import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
-@Entity
-@Table(name = "tb_pet")
-public class Pet implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Service
+public class PetResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String name;
     private String age;
     private String description;
     private PetSpecie specie;
     private PetPersonality personality;
-    private LocalDateTime dateCreate = LocalDateTime.now();
+    private LocalDateTime dateCreate;
     private PetAgeMonthOrYear ageMonthOrYear;
     private PetGenre genre;
     private PetStatus status;
     private PetCarrying carrying;
+    private Long ownerId;
+    private Long shelterId;
 
-    @ManyToOne
-    private Tutor owner;
-
-    @ManyToOne
-    @JoinColumn(name = "shelter_id")
-    private Shelter shelter;
-
-    public Pet() {
+    public PetResponse() {
     }
 
-    public Pet(Long id, String name, String age, String description, Shelter shelter, PetSpecie specie, PetPersonality personality, Tutor owner, LocalDateTime dateCreate, PetAgeMonthOrYear ageMonthOrYear, PetGenre genre, PetStatus status, PetCarrying carrying) {
-        this.id = id;
+    public PetResponse(String name, String age, String description, PetSpecie specie, PetPersonality personality, LocalDateTime dateCreate, PetAgeMonthOrYear ageMonthOrYear, PetGenre genre, PetStatus status, PetCarrying carrying, Long ownerId, Long shelterId) {
         this.name = name;
         this.age = age;
         this.description = description;
-        this.shelter = shelter;
         this.specie = specie;
         this.personality = personality;
-        this.owner = owner;
         this.dateCreate = dateCreate;
         this.ageMonthOrYear = ageMonthOrYear;
         this.genre = genre;
         this.status = status;
         this.carrying = carrying;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.ownerId = ownerId;
+        this.shelterId = shelterId;
     }
 
     public String getName() {
@@ -84,14 +64,6 @@ public class Pet implements Serializable {
         this.description = description;
     }
 
-    public Shelter getShelter() {
-        return shelter;
-    }
-
-    public void setShelter(Shelter shelter) {
-        this.shelter = shelter;
-    }
-
     public PetSpecie getSpecie() {
         return specie;
     }
@@ -106,14 +78,6 @@ public class Pet implements Serializable {
 
     public void setPersonality(PetPersonality personality) {
         this.personality = personality;
-    }
-
-    public Tutor getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Tutor owner) {
-        this.owner = owner;
     }
 
     public LocalDateTime getDateCreate() {
@@ -156,16 +120,36 @@ public class Pet implements Serializable {
         this.carrying = carrying;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Pet pet = (Pet) o;
-        return Objects.equals(id, pet.id);
+    public Long getOwnerId() {
+        return ownerId;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public Long getShelterId() {
+        return shelterId;
+    }
+
+    public void setShelterId(Long shelterId) {
+        this.shelterId = shelterId;
+    }
+
+    public PetResponse convert(Pet pet) {
+        PetResponse response = new PetResponse();
+        response.setName(pet.getName());
+        response.setAge(pet.getAge());
+        response.setDescription(pet.getDescription());
+        response.setSpecie(pet.getSpecie());
+        response.setPersonality(pet.getPersonality());
+        response.setDateCreate(pet.getDateCreate());
+        response.setAgeMonthOrYear(pet.getAgeMonthOrYear());
+        response.setGenre(pet.getGenre());
+        response.setStatus(pet.getStatus());
+        response.setCarrying(pet.getCarrying());
+        response.setOwnerId(pet.getOwner().getId());
+        response.setShelterId(pet.getShelter().getId());
+        return response;
     }
 }
