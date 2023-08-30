@@ -67,6 +67,10 @@ public class PetService {
         repository.delete(entity);
     }
 
+    public Pet getBYId(Long id) {
+        return repository.getReferenceById(id);
+    }
+
     private void copyDtoToEntity(PetRequest dto, Pet entity) {
         entity.setName(dto.getName());
         entity.setAge(dto.getAge());
