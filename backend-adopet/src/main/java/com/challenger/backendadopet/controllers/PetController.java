@@ -5,12 +5,13 @@ import com.challenger.backendadopet.dtos.responses.PetResponse;
 import com.challenger.backendadopet.services.PetService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/pets")
@@ -26,8 +27,12 @@ public class PetController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PetResponse>> findAll() {
-        List<PetResponse> list = service.findAll();
+    public ResponseEntity<Page<PetResponse>> findAll(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "linesPerPage", defaultValue = "10") Integer linesPerPage
+            ) {
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage);
+        Page<PetResponse> list = service.findAllPaged(pageRequest);
         return ResponseEntity.ok().body(list);
     }
 

@@ -7,6 +7,8 @@ import com.challenger.backendadopet.repositories.PetRepository;
 import com.challenger.backendadopet.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,9 +39,9 @@ public class PetService {
     }
 
     @Transactional(readOnly = true)
-    public List<PetResponse> findAll() {
-        List<Pet> list = repository.findAll();
-        return list.stream().map(x -> response.convert(x)).collect(Collectors.toList());
+    public Page<PetResponse> findAllPaged(PageRequest pageRequest) {
+        Page<Pet> list = repository.findAll(pageRequest);
+        return list.map(x -> response.convert(x));
     }
 
     public PetResponse insert(PetRequest dto) {
