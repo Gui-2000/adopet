@@ -5,16 +5,13 @@ import com.challenger.backendadopet.dtos.responses.PetResponse;
 import com.challenger.backendadopet.entities.Pet;
 import com.challenger.backendadopet.repositories.PetRepository;
 import com.challenger.backendadopet.services.exceptions.ResourceNotFoundException;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class PetService {
@@ -53,14 +50,11 @@ public class PetService {
 
     @Transactional
     public PetRequest update(Long id, PetRequest dto) {
-        try {
-            Pet entity = repository.getReferenceById(id);
-            copyDtoToEntity(dto, entity);
-            entity = repository.save(entity);
-            return new PetRequest(entity);
-        } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Id not found " + id);
-        }
+        Optional<Pet> possiblePet = repository.findById(id);
+        Pet pet = possiblePet.orElseThrow(() -> new ResourceNotFoundException("Id not found " + id));
+        copyDtoToEntity(dto, pet);
+        Pet save = repository.save(pet);
+        return PetRequest.convertPetRequest(save);
     }
 
     public void delete(Long id) {

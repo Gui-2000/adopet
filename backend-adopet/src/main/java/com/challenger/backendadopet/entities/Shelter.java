@@ -1,14 +1,15 @@
 package com.challenger.backendadopet.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "tb_shelter")
+@Data
 public class Shelter implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -31,117 +32,4 @@ public class Shelter implements Serializable {
 
     @OneToMany(mappedBy = "shelter")
     private List<Pet> pets = new ArrayList<>();
-
-    public Shelter() {
-    }
-
-    public Shelter(Long id, String name, String email, String cnpj, String phone, String address, String city, String uf, String image, Tutor responsible) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.cnpj = cnpj;
-        this.phone = phone;
-        this.address = address;
-        this.city = city;
-        this.uf = uf;
-        this.image = image;
-        this.responsible = responsible;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getUf() {
-        return uf;
-    }
-
-    public void setUf(String uf) {
-        this.uf = uf;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public Tutor getResponsible() {
-        return responsible;
-    }
-
-    public void setResponsible(Tutor responsible) {
-        this.responsible = responsible;
-    }
-
-    public List<Pet> getPets() {
-        return pets;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Shelter shelter = (Shelter) o;
-        return Objects.equals(id, shelter.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

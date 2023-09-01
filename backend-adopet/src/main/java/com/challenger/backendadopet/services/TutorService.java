@@ -6,7 +6,6 @@ import com.challenger.backendadopet.entities.Tutor;
 import com.challenger.backendadopet.repositories.TutorRepository;
 import com.challenger.backendadopet.services.exceptions.DatabaseException;
 import com.challenger.backendadopet.services.exceptions.ResourceNotFoundException;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -48,14 +47,11 @@ public class TutorService {
     
     @Transactional
     public TutorRequest update(Long id, TutorRequest dto) {
-    	try {
-    		Tutor entity = repository.getReferenceById(id);
-    		copyDtoToEntity(dto, entity);
-        	entity = repository.save(entity);
-        	return new TutorRequest(entity);
-         } catch (EntityNotFoundException e) {
-              throw new ResourceNotFoundException("Id not found " + id);
-       }
+        Optional<Tutor> possibleTutor = repository.findById(id);
+        Tutor tutor = possibleTutor.orElseThrow(() -> new ResourceNotFoundException("Id not found " + id));
+        copyDtoToEntity(dto, tutor);
+        Tutor save = repository.save(tutor);
+        return TutorRequest.convertTutorRequest(save);
     }
     
     public void delete(Long id) {

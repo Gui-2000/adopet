@@ -39,9 +39,9 @@ public class TutorServiceTests {
 	void setUp() throws Exception {
 		existingId = 1L;
 		nonExistingId = 1000L;
-		request = new TutorRequest(existingId, "Angela Maria", "angel@gmail.com", "6594265", "36985214730", "Presidente Wilson, 117", "Santos", "SP", "13 997564329", "www.imagem-1.com.br");
-		tutor = new Tutor(existingId, "Angela Maria", "angel@gmail.com", "6594265", "36985214730", "Presidente Wilson, 117", "Santos", "SP", "13 997564329", "www.imagem-1.com.br");
-		response = new TutorResponse("Angela Maria", "angel@gmail.com");
+	//	request = new TutorRequest(existingId, "Angela Maria", "angel@gmail.com", "6594265", "36985214730", "Presidente Wilson, 117", "Santos", "SP", "13 997564329", "www.imagem-1.com.br");
+	//	tutor = new Tutor(existingId, "Angela Maria", "angel@gmail.com", "6594265", "36985214730", "Presidente Wilson, 117", "Santos", "SP", "13 997564329", "www.imagem-1.com.br");
+	//	response = new TutorResponse("Angela Maria", "angel@gmail.com");
 		
 		Mockito.when(repository.findById(existingId)).thenReturn(Optional.of(tutor));
 		Mockito.when(repository.findById(nonExistingId)).thenReturn(Optional.empty());

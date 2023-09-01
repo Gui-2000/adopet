@@ -5,7 +5,6 @@ import com.challenger.backendadopet.dtos.responses.ShelterResponse;
 import com.challenger.backendadopet.entities.Shelter;
 import com.challenger.backendadopet.repositories.ShelterRepository;
 import com.challenger.backendadopet.services.exceptions.ResourceNotFoundException;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,14 +45,11 @@ public class ShelterService {
 
     @Transactional
     public ShelterRequest update(Long id, ShelterRequest dto) {
-        try {
-            Shelter entity = repository.getReferenceById(id);
-            copyDtoToEntity(dto, entity);
-            entity = repository.save(entity);
-            return new ShelterRequest(entity);
-        } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Id not found " + id);
-        }
+        Optional<Shelter> possibleShelter = repository.findById(id);
+        Shelter shelter = possibleShelter.orElseThrow(() -> new ResourceNotFoundException("Id not found " + id));
+        copyDtoToEntity(dto, shelter);
+        Shelter save = repository.save(shelter);
+        return ShelterRequest.convertShelterRequest(save);
     }
     public void delete(Long id) {
         Optional<Shelter> obj =  repository.findById(id);
